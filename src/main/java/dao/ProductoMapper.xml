@@ -37,6 +37,37 @@
 	 		p.precio, p.stock, p.fecha_compra, p.fecha_creacion
  		FROM productos p
  		WHERE p.estado_auditoria = '1' and p.id_subcategoria = #{idSubcategoria}
+ 		
  	</select>
+ 	
+ 	<select id="buscarPorId" parameterType="int" resultMap="ProductoMap">
+    SELECT 
+        p.id_producto, 
+        p.id_marca, 
+        p.id_subcategoria, 
+        p.id_proveedor, 
+        p.codigo_interno, 
+        p.codigo_externo, 
+        p.nombre, 
+        p.descripcion, 
+        p.modelo, 
+        p.tiempo_garantia_meses, 
+        p.precio, 
+        p.stock, 
+        p.fecha_compra, 
+        p.fecha_creacion, 
+        ( 
+            SELECT pi.imagen_url 
+            FROM producto_imagenes pi 
+            WHERE pi.estado_auditoria = '1' 
+            AND pi.id_producto = p.id_producto 
+            ORDER BY pi.fecha_creacion ASC 
+            LIMIT 1 
+        ) AS imagen_url 
+    FROM productos p 
+    WHERE p.estado_auditoria = '1' 
+    AND p.id_producto = #{id}
+</select>
+ 	
  	
  </mapper>

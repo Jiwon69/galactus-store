@@ -29,12 +29,39 @@ public class ProductoServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Integer idSubcategoria = Integer.parseInt(request.getParameter("idSubcategoria"));
-		List<Producto> productos = productoService.listarProductosPorIdSubcategoria(idSubcategoria);
-		request.setAttribute("productos", productos);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/views/productos.jsp");
-		dispatcher.forward(request,response);
-	}
+        String idSubcategoriaParam = request.getParameter("idSubcategoria");
+        String idProductoParam = request.getParameter("id");
+
+        try {
+            if (idSubcategoriaParam != null) {
+                Integer idSubcategoria = Integer.parseInt(idSubcategoriaParam);
+                List<Producto> productos = productoService.listarProductosPorIdSubcategoria(idSubcategoria);
+                request.setAttribute("productos", productos);
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/views/productos.jsp");
+                dispatcher.forward(request, response);
+                return;
+            }
+
+            if (idProductoParam != null) {
+                int idProducto = Integer.parseInt(idProductoParam);
+                Producto producto = productoService.obtenerProductoPorId(idProducto);
+
+                if (producto != null) {
+                    request.setAttribute("producto", producto);
+
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/views/detalleproducto.jsp");
+                    dispatcher.forward(request, response);
+                    return;
+                }
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+
+        response.sendRedirect("productos.jsp");
+    }
+
 
 
 }
