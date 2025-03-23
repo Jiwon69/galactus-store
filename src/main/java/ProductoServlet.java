@@ -1,5 +1,5 @@
 import services.ProductoService;
-import services.impl.ProductoServiceImpl; 
+import services.impl.ProductoServiceImpl;
 import models.Producto;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,7 +11,12 @@ import java.util.List;
 
 public class ProductoServlet extends HttpServlet {
     
-    private ProductoService productoService = new ProductoServiceImpl(); 
+    private ProductoService productoService; 
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        productoService = new ProductoServiceImpl();  
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -40,7 +45,7 @@ public class ProductoServlet extends HttpServlet {
                 }
             }
         } catch (NumberFormatException e) {
-            e.printStackTrace(); 
+            e.printStackTrace();  
         }
 
         response.sendRedirect("productos.jsp");  

@@ -1,45 +1,48 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
- <mapper namespace="dao.ProductoMapper"> 
- 
- 	<resultMap id="ProductoMap" type="models.Producto" >
- 		<id column="id_producto" property="idProducto"/>
- 		<result column="id_marca" property="idMarca"/>
- 		<result column="id_subcategoria" property="idSubcategoria"/>
- 		<result column="id_proveedor" property="idProveedor"/>
- 		<result column="codigo_interno" property="codigoInterno"/>
- 		<result column="codigo_externo" property="codigoExterno"/>
- 		<result column="nombre" property="nombre"/>
- 		<result column="descripcion" property="descripcion"/>
- 		<result column="modelo" property="modelo"/>
- 		<result column="tiempo_garantia" property="tiempoGarantiaMeses"/>
- 		<result column="precio" property="precio"/>
- 		<result column="stock" property="stock"/>
- 		<result column="fecha_compra" property="fechaCompra"/>
- 		<result column="fecha_creacion" property="fechaCreacion"/>
- 		<result column="imagen_url" property="imagenUrl"/>
- 	</resultMap>
- 
- 	<select id="listarProductosPorIdSubcategoria" parameterType="int" resultMap="ProductoMap">
+
+<mapper namespace="dao.ProductoMapper">
+
+    <!-- Mapear columnas de la tabla productos al modelo Producto -->
+    <resultMap id="ProductoMap" type="models.Producto">
+        <id column="id_producto" property="idProducto"/>
+        <result column="id_marca" property="idMarca"/>
+        <result column="id_subcategoria" property="idSubcategoria"/>
+        <result column="id_proveedor" property="idProveedor"/>
+        <result column="codigo_interno" property="codigoInterno"/>
+        <result column="codigo_externo" property="codigoExterno"/>
+        <result column="nombre" property="nombre"/>
+        <result column="descripcion" property="descripcion"/>
+        <result column="modelo" property="modelo"/>
+        <result column="tiempo_garantia_meses" property="tiempoGarantiaMeses"/>
+        <result column="precio" property="precio"/>
+        <result column="stock" property="stock"/>
+        <result column="fecha_compra" property="fechaCompra"/>
+        <result column="fecha_creacion" property="fechaCreacion"/>
+        <result column="imagen_url" property="imagenUrl"/>
+    </resultMap>
+
+    <!-- Listar productos por ID de subcategoría -->
+    <select id="listarProductosPorIdSubcategoria" parameterType="int" resultMap="ProductoMap">
         SELECT 
             p.id_producto, p.id_marca, p.id_subcategoria, p.id_proveedor, 
             p.codigo_interno, p.codigo_externo, p.nombre, p.descripcion, 
             p.modelo, p.tiempo_garantia_meses, p.precio, p.stock, 
             p.fecha_compra, p.fecha_creacion,
-            (
-                SELECT pi.imagen_url 
-                FROM producto_imagenes pi
-                WHERE pi.estado_auditoria = '1' 
-                  AND pi.id_producto = p.id_producto
-                ORDER BY pi.fecha_creacion ASC
-                LIMIT 1
-            ) AS imagen_url
+            pi.imagen_url
         FROM productos p
+        LEFT JOIN LATERAL (
+            SELECT pi.imagen_url
+            FROM producto_imagenes pi
+            WHERE pi.estado_auditoria = '1'
+              AND pi.id_producto = p.id_producto
+            ORDER BY pi.fecha_creacion ASC
+            LIMIT 1
+        ) pi ON TRUE
         WHERE p.estado_auditoria = '1' 
-          AND p.id_subcategoria = #{idSubcategoria}
+          AND p.id_subcategoria = #{idSubcategoria};
     </select>
 
     <!-- Buscar producto por ID -->
@@ -49,17 +52,18 @@
             p.codigo_interno, p.codigo_externo, p.nombre, p.descripcion, 
             p.modelo, p.tiempo_garantia_meses, p.precio, p.stock, 
             p.fecha_compra, p.fecha_creacion,
-            (
-                SELECT pi.imagen_url
-                FROM producto_imagenes pi
-                WHERE pi.estado_auditoria = '1' 
-                  AND pi.id_producto = p.id_producto
-                ORDER BY pi.fecha_creacion ASC
-                LIMIT 1
-            ) AS imagen_url
+            pi.imagen_url
         FROM productos p
+        LEFT JOIN LATERAL (
+            SELECT pi.imagen_url
+            FROM producto_imagenes pi
+            WHERE pi.estado_auditoria = '1' 
+              AND pi.id_producto = p.id_producto
+            ORDER BY pi.fecha_creacion ASC
+            LIMIT 1
+        ) pi ON TRUE
         WHERE p.estado_auditoria = '1' 
-          AND p.id_producto = #{id}
-    </select>
- 	
- </mapper>
+          AND p.id_producto = #{id};
+    </select>
+
+</mapper>

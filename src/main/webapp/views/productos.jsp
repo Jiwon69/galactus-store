@@ -9,7 +9,7 @@
 	<meta charset="UTF-8">
 	<title>GALACTUS STORE | SISE</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+	<script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
 
@@ -29,34 +29,37 @@
 		<div class="flex w-full justify-center p-4 gap-4 flex-wrap">
 			<% if (productos != null && !productos.isEmpty()) { %>
 				<% for(Producto producto: productos) { %>
-						<!-- <a class="flex bg-gray-200 w-full max-w-[400px] justify-start items-center p-4 gap-4 rounded-md border border-gray-300 border-solid hover:border-green-600 cursor-pointer"> -->
-				    	<a href="productos?id=<%= producto.getIdProducto() %>" class="flex bg-gray-200 w-[200px] justify-center flex-col p-4 gap-1 items-center rounded-md border border-gray-300 border-solid hover:border-green-600 cursor-pointer">
-				    <!-- Imagen pequeña al lado izquierdo -->
-				    <img class="rounded-sm" src="<%= producto.getImagenUrl() != null ? producto.getImagenUrl() : Constants.IMAGEN_PRODUCTO_DEFAULT %>" width="100px">
-				
-				    <!-- Texto (código, nombre y precio) a la derecha de la imagen -->
-				    <div class="flex flex-col justify-start gap-1 ml-4">
-				        <!-- Código Interno -->
-				        <span class="text-xs text-left text-green-600 font-medium"><%= producto.getCodigoInterno() %></span>
-				        <!-- Nombre del producto -->
-				        <span class="text-center font-bold text-gray-600 text-sm"><%= producto.getNombre() %></span>
-				        <!-- Precio -->
-				        <span class="text-center font-bold text-blue-600 text-xl">S/. <%= producto.getPrecio() %></span>
-				    </div>
-				</a>
-
-				<% 	} %>
-			<%	} else { %>
-				<p>No se encontraron registros</p>
+					<a href="productos?id=<%= producto.getIdProducto() %>" 
+				   class="flex flex-col bg-gray-200 w-[200px] justify-center p-4 gap-2 items-center 
+				          rounded-md border border-gray-300 border-solid 
+				          hover:border-green-600 hover:shadow-lg shadow-md cursor-pointer transition-all">
+				    
+				    <img class="rounded-sm w-24 h-24 object-cover" 
+				         src="<%= producto.getImagenUrl() != null ? producto.getImagenUrl() : Constants.IMAGEN_PRODUCTO_DEFAULT %>" 
+				         alt="Imagen del producto <%= producto.getNombre() %>">
+				    
+				    <div class="flex flex-col justify-start gap-1 text-center">
+				        <span class="text-xs text-green-600 font-medium">
+				            <%= producto.getCodigoInterno() %>
+				        </span>
+				        <span class="font-bold text-gray-600 text-sm">
+				            <%= producto.getNombre() %>
+						    </span>
+						  <span class="font-bold text-blue-600 text-xl">
+		            S/. <%= producto.getPrecio() %>
+		        </span>
+		    </div>
+		</a>
+		
+				<% } %>
+			<% } else { %>
+				<p class="text-center text-gray-500">No se encontraron registros</p>
 			<% } %>
 		</div>
-			
-		<% if (productos != null && !productos.isEmpty()) { %>
-				<div class="w-full p-4">Total registros: <%= productos.size() %></div>
-		<% } %>
 		
+		<% if (productos != null && !productos.isEmpty()) { %>
+			<div class="w-full p-4 text-center">Total registros: <%= productos.size() %></div>
+		<% } %>
 	</main>
-	
-	
 </body>
 </html>
