@@ -10,4 +10,6 @@ asdasd
 
 ### Diseño de la BD
 
+ENLACE DE VIDEO
+https://youtu.be/iir1BHeNmdg
 
