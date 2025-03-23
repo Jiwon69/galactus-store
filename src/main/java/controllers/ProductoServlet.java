@@ -28,12 +28,12 @@ public class ProductoServlet extends HttpServlet {
         productoService = new ProductoServiceImpl();
     }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Integer idSubcategoria = Integer.parseInt(request.getParameter("idSubcategoria"));
 		List<Producto> productos = productoService.listarProductosPorIdSubcategoria(idSubcategoria);
 		request.setAttribute("productos", productos);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/views/productos.jsp");
-		dispatcher.forward(request, response);
+		dispatcher.forward(request,response);
 	}
 
 

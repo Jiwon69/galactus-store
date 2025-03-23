@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
- <mapper namespace="dao.ProductoMapper">
+ <mapper namespace="dao.ProductoMapper"> 
  
  	<resultMap id="ProductoMap" type="models.Producto" >
  		<id column="id_producto" property="idProducto"/>
@@ -33,7 +33,7 @@
 				LIMIT 1
 			) imagen_url, 
 			p.id_producto, p.id_marca, p.id_subcategoria, p.id_proveedor, p.codigo_interno,
-	 		p.codigo_externo, p.nombre, p.descripcion, p.modelo, p.tiempo_garantia_meses,
+	 		p.codigo_externo, p.nombre, p.descripcion, p.modelo, tiempo_garantia,
 	 		p.precio, p.stock, p.fecha_compra, p.fecha_creacion
  		FROM productos p
  		WHERE p.estado_auditoria = '1' and p.id_subcategoria = #{idSubcategoria}

@@ -29,23 +29,30 @@
 		<div class="flex w-full justify-center p-4 gap-4 flex-wrap">
 			<% if (productos != null && !productos.isEmpty()) { %>
 				<% for(Producto producto: productos) { %>
-					<a class="flex bg-gray-200 w-[200px] justify-center flex-col p-4 gap-1 items-center rounded-md border border-gray-300 border-solid hover:border-green-600 cursor-pointer">
-						<img class="rounded-sm" src="<%= producto.getImagenUrl() != null ? producto.getImagenUrl()  : Constants.IMAGEN_PRODUCTO_DEFAULT %>" width="150px">
-						<span class="w-full justify-between items-end flex">
-							<span class="text-xs text-left text-center text-green-600 font-medium"><%= producto.getCodigoInterno() %></span>
-							<span class="text-center font-bold text-blue-600 text-right text-xl">S/. <%= producto.getPrecio() %></span>
-						</span>
-						
-						<span class="text-center font-bold text-gray-600 text-xs"><%= producto.getNombre() %></span>
-						<span class="w-full text-red-500 text-left text-xs"><%= producto.getStock() %> unidades</span>
-						
-					</a>
+						<a class="flex bg-gray-200 w-full max-w-[400px] justify-start items-center p-4 gap-4 rounded-md border border-gray-300 border-solid hover:border-green-600 cursor-pointer">
+				    <!-- Imagen pequeña al lado izquierdo -->
+				    <img class="rounded-sm" src="<%= producto.getImagenUrl() != null ? producto.getImagenUrl() : Constants.IMAGEN_PRODUCTO_DEFAULT %>" width="100px">
+				
+				    <!-- Texto (código, nombre y precio) a la derecha de la imagen -->
+				    <div class="flex flex-col justify-start gap-1 ml-4">
+				        <!-- Código Interno -->
+				        <span class="text-xs text-left text-green-600 font-medium"><%= producto.getCodigoInterno() %></span>
+				        <!-- Nombre del producto -->
+				        <span class="text-center font-bold text-gray-600 text-sm"><%= producto.getNombre() %></span>
+				        <!-- Precio -->
+				        <span class="text-center font-bold text-blue-600 text-xl">S/. <%= producto.getPrecio() %></span>
+				    </div>
+				</a>
+
 				<% 	} %>
 			<%	} else { %>
 				<p>No se encontraron registros</p>
 			<% } %>
 		</div>
 			
+		<% if (productos != null && !productos.isEmpty()) { %>
+				<div class="w-full p-4">Total registros: <%= productos.size() %></div>
+		<% } %>
 		
 	</main>
 	
